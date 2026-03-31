@@ -182,8 +182,18 @@ app.use((err: Error & { status?: number }, _req: Request, res: Response, _next: 
 // ---------------------------------------------------------------------------
 // Start
 // ---------------------------------------------------------------------------
-app.listen(env.PORT, () => {
+const server = app.listen(env.PORT, () => {
   logger.info(`Server running on port ${env.PORT} [${env.NODE_ENV}]`);
+});
+
+// Keep process alive and handle graceful shutdown
+server.on("close", () => {
+  logger.info("Server closed");
+});
+
+process.on("SIGTERM", () => {
+  logger.info("SIGTERM received, shutting down...");
+  server.close();
 });
 
 export default app;
