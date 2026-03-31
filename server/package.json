@@ -4,7 +4,8 @@
   "type": "module",
   "main": "dist/server.js",
   "scripts": {
-    "start": "NODE_ENV=production node dist/server.js",
+    "start": "node dist/server.js",
+    "start:prod": "NODE_ENV=production node dist/server.js",
     "dev": "tsx --watch src/server.ts",
     "build": "tsc",
     "typecheck": "tsc --noEmit",

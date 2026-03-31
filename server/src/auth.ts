@@ -3,6 +3,7 @@ import { logger } from "./logger.js";
 import {
   admin,
   bearer,
+  jwt,
   openAPI,
   organization,
   twoFactor,
@@ -92,6 +93,17 @@ export const auth = betterAuth({
     admin(),
     openAPI(),
     bearer(),
+    jwt({
+      jwt: {
+        expirationTime: "7d",
+        definePayload: ({ user }) => ({
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: (user as Record<string, unknown>).role ?? "user",
+        }),
+      },
+    }),
     twoFactor({
       issuer: "eb-auth",
     }),
